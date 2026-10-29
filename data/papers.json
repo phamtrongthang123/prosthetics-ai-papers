@@ -68,12 +68,30 @@
       ],
       "details": {
         "abstract": "Problem: selecting and executing a grasp with a multi-degree-of-freedom prosthetic hand can be slow and difficult. Proposal: use an eye-in-hand camera and shared autonomy to infer possible grasps and select one from the user’s reaching trajectory.",
-        "architecture": "A DINOv2 backbone with a DPT depth head estimates metric depth from RGB. Contact-GraspNet proposes grasps from a point cloud downsampled to 20,000 points; DPVO tracks the hand’s approach, which selects a candidate mapped to the Hannes hand.",
+        "architecture": "The system first estimates how far each visible point is from the camera. DINOv2 is a pretrained vision Transformer that extracts image features; a DPT (Dense Prediction Transformer) head converts those features into a per-pixel depth map in metric units. That map is converted to a 3D point cloud and reduced to 20,000 points. Contact-GraspNet, a neural network for predicting possible gripper poses from a point cloud, proposes candidate grasps. DPVO (Deep Patch Visual Odometry) tracks image patches across camera frames to estimate how the hand moves as the user approaches. The system selects a candidate based on that approach and maps it to the Hannes prosthetic hand.",
         "training": "The depth model is fine-tuned on SynV2, a Unity-generated synthetic dataset with randomized objects, camera orientation and lighting. The study tested 10 participants without limb loss and 3 with amputations, using 5 objects and 30 trials per person. Three object models appeared in depth training and two were unknown or dissimilar.",
         "loss": "The paper describes depth-model fine-tuning using the Depth Anything recipe, but does not explicitly specify the loss or training set size in the reported methods.",
         "metrics": "On the real depth test set, the DINOv2/SynV2 model achieved δ1 = 0.698 and RMSE = 0.113. In the three amputee participants, grasp success was 0.84 ± 0.12 and average grasp time 17.02 ± 4.75 s; the co-contraction baseline was 0.87 ± 0.19 and 24.36 ± 15.07 s. The baseline conditions differed across participants.",
         "availability": "Code and project are linked below. A public download for the paper’s SynV2 training set was not identified."
-      }
+      },
+      "method_references": [
+        {
+          "label": "DINOv2",
+          "url": "https://arxiv.org/abs/2304.07193"
+        },
+        {
+          "label": "DPT",
+          "url": "https://arxiv.org/abs/2103.13413"
+        },
+        {
+          "label": "Contact-GraspNet",
+          "url": "https://arxiv.org/abs/2103.14127"
+        },
+        {
+          "label": "DPVO",
+          "url": "https://arxiv.org/abs/2208.04726"
+        }
+      ]
     },
     {
       "title": "TinyMyo: a Tiny Foundation Model for Flexible EMG Signal Processing at the Edge",

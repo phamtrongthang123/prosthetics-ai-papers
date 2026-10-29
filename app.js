@@ -29,6 +29,17 @@ function render() {
         if (!p.details[key]) return;
         const section = element('section', '', 'detail-section');
         section.append(element('h4', label), element('p', p.details[key]));
+        if (key === 'architecture' && p.method_references?.length) {
+          const refs = element('div', '', 'method-references');
+          refs.append(element('span', 'Method papers: '));
+          p.method_references.forEach((ref, i) => {
+            if (i) refs.append(document.createTextNode(' · '));
+            const link = element('a', ref.label);
+            link.href = ref.url; link.target = '_blank'; link.rel = 'noopener noreferrer';
+            refs.append(link);
+          });
+          section.append(refs);
+        }
         details.append(section);
       });
       body.append(details);

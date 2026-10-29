@@ -6,7 +6,7 @@ Search and topic filters run in the browser; the data lives in `data/papers.json
 
 ## Research note template
 
-Each entry should describe the problem and proposal, architecture, data and training, loss or objective, and results with their experimental context. Include links to the paper and available code and datasets. Use the `details` fields `abstract`, `architecture`, `training`, `loss`, `metrics`, and `availability`; use `resources` for extra links. Summarize in your own words and distinguish information that does not apply from information not found in the paper. The site also supports older entries without `details`.
+Each entry should describe the problem and proposal, architecture, data and training, loss or objective, and results with their experimental context. Explain specialized named models in context or link to their original papers. Include links to the paper and available code and datasets. Use the `details` fields `abstract`, `architecture`, `training`, `loss`, `metrics`, and `availability`; use `resources` for extra links and `method_references` for component papers. Summarize in your own words and distinguish information that does not apply from information not found in the paper. The site also supports older entries without `details`.
 
 ## Add a paper
 
@@ -42,7 +42,8 @@ Only `--title` and `--url` are required. The new entry is placed first. Review `
     "metrics": "Numerical results and evaluation context.",
     "availability": "What code and data are available."
   },
-  "resources": [{"label": "Code", "url": "https://example.org/code"}]
+  "resources": [{"label": "Code", "url": "https://example.org/code"}],
+  "method_references": [{"label": "Named method", "url": "https://example.org/method-paper"}]
 }
 ```
 

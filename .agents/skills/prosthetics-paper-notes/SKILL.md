@@ -14,13 +14,13 @@ Read the original paper and, when useful, its supplementary material and officia
 For every entry, fill these `details` fields:
 
 - `abstract`: What problem does the paper address, and what does it propose?
-- `architecture`: Describe the model or actual method, including relevant components, input/output, and architecture sizes where reported. Say explicitly when no deep learning model is proposed.
+- `architecture`: Describe the model or actual method, including relevant components, input/output, and architecture sizes where reported. Briefly explain specialized named models and what each does in this paper, or link to their original papers; do not assume readers know every named architecture. Familiar general terms such as MLP need no extra explanation. Say explicitly when no deep learning model is proposed.
 - `training`: Identify training and evaluation data, sample sizes, relevant splits, preprocessing, and meaningful training settings where reported. Distinguish training data from study participants and test data.
 - `loss`: Give the training loss or objective, including weights when reported. Distinguish training losses from evaluation metrics, agency constraints, and other similarly named quantities. Mark as not applicable or not reported, as appropriate.
 - `metrics`: Provide useful numerical results, units, baselines, uncertainty, experimental cohort and protocol, and limitations needed to interpret the comparison. Do not conflate test conditions or present an offline benchmark as clinical evidence.
 - `availability`: Explain the availability of code and data. If a public resource was not identified, say so rather than claiming it does not exist.
 
-The entry's `url` must link to the paper. Add available official code and dataset links in `resources` as objects with `label` and `url`. Check that links lead to the relevant resources. Include a concise `notes` summary, tags, authors, venue, and year. Preserve owner-supplied context where consistent with the source, and report unresolved discrepancies rather than filling gaps with guesses.
+The entry's `url` must link to the paper. Add available official code and dataset links in `resources` as objects with `label` and `url`. When citing named components, put their original paper links in `method_references` using the same object format; they appear alongside the architecture description. Check that links lead to the relevant resources. Include a concise `notes` summary, tags, authors, venue, and year. Preserve owner-supplied context where consistent with the source, and report unresolved discrepancies rather than filling gaps with guesses.
 
 ## Repository workflow
 
