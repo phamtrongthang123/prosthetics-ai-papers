@@ -39,7 +39,7 @@ function render() {
 search.addEventListener('input', () => { limit = 12; render(); });
 topic.addEventListener('change', () => { limit = 12; render(); });
 more.addEventListener('click', () => { limit += 12; render(); });
-fetch('data/papers.json').then(response => { if (!response.ok) throw new Error('Archive unavailable'); return response.json(); }).then(data => {
+fetch('data/papers.json', { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Archive unavailable'); return response.json(); }).then(data => {
   if (!Array.isArray(data.papers)) throw new Error('Invalid archive');
   papers = data.papers; const tags = [...new Set(papers.flatMap(p => p.tags || []))].sort((a,b) => a.localeCompare(b));
   tags.forEach(tag => { const option = element('option', tag); option.value = tag; topic.append(option); }); render();
