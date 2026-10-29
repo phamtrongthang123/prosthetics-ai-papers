@@ -23,6 +23,15 @@ function render() {
     link.href = p.url; link.target = '_blank'; link.rel = 'noopener noreferrer'; title.append(link); body.append(title);
     if (p.authors) body.append(element('p', p.authors));
     if (p.notes) body.append(element('p', p.notes));
+    if (p.resources?.length) {
+      const resources = element('div', '', 'paper-resources');
+      p.resources.forEach(resource => {
+        const link = element('a', `${resource.label} ↗`);
+        link.href = resource.url; link.target = '_blank'; link.rel = 'noopener noreferrer';
+        resources.append(link);
+      });
+      body.append(resources);
+    }
     article.append(meta, body, element('div', (p.tags || []).join(' / '), 'paper-tags')); list.append(article);
   });
   moreWrap.hidden = filtered.length <= limit;

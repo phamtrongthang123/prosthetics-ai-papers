@@ -1,3 +1,87 @@
 {
-  "papers": []
+  "papers": [
+    {
+      "title": "Shared human-machine control of an intelligent bionic hand improves grasping and decreases cognitive burden for transradial amputees",
+      "url": "https://www.nature.com/articles/s41467-025-65965-9",
+      "year": "2025",
+      "authors": "Trout et al.",
+      "venue": "Nature Communications",
+      "notes": "A sensor-equipped prosthetic hand shares control between a user’s EMG signals and a machine controller that helps position the fingers. Tests including four people with transradial amputations found improved grip precision and security and reduced cognitive burden.",
+      "tags": [
+        "Shared autonomy",
+        "Myoelectric control",
+        "Bionic hand"
+      ]
+    },
+    {
+      "title": "Gaze, visual, myoelectric, and inertial data of grasps for intelligent prosthetics",
+      "url": "https://www.nature.com/articles/s41597-020-0380-3",
+      "year": "2020",
+      "authors": "Cognolato et al.",
+      "venue": "Scientific Data",
+      "notes": "The MeganePro dataset combines EMG, gaze, first-person video and inertial measurements from 30 participants without limb loss and 15 people with transradial amputations. A useful resource for studying multimodal intent prediction.",
+      "tags": [
+        "Datasets",
+        "Gaze",
+        "Multimodal AI"
+      ],
+      "resources": [
+        {
+          "label": "Dataset access",
+          "url": "https://ninapro.hevs.ch/instructions/DB10.html"
+        }
+      ]
+    },
+    {
+      "title": "Bring Your Own Grasp Generator: Leveraging Robot Grasp Generation for Prosthetic Grasping",
+      "url": "https://arxiv.org/abs/2503.00466",
+      "year": "2025",
+      "authors": "Stracquadanio et al.",
+      "venue": "ICRA",
+      "notes": "A shared-autonomy system combines monocular 3D reconstruction and robotic grasp generation to configure a prosthetic hand during reaching, using the user’s motion to help select a grasp.",
+      "tags": [
+        "Computer vision",
+        "Grasp planning",
+        "Shared autonomy"
+      ],
+      "resources": [
+        {
+          "label": "Code and project",
+          "url": "https://github.com/hsp-iit/byogg"
+        }
+      ]
+    },
+    {
+      "title": "TinyMyo: a Tiny Foundation Model for Flexible EMG Signal Processing at the Edge",
+      "url": "https://arxiv.org/abs/2512.15729",
+      "year": "2026",
+      "authors": "Fasulo et al.",
+      "venue": "IEEE Transactions on Biomedical Engineering",
+      "notes": "A 3.6-million-parameter Transformer pretrained using masked reconstruction supports several EMG tasks, including gesture classification and hand kinematics regression, and can run on a low-power microcontroller.",
+      "tags": [
+        "Foundation models",
+        "EMG",
+        "Intent decoding"
+      ],
+      "resources": [
+        {
+          "label": "Code and pretrained models",
+          "url": "https://github.com/pulp-bio/BioFoundation"
+        }
+      ]
+    },
+    {
+      "title": "Agency-Constrained Shared Autonomy for Prosthetic Grasp Selection: A Reproducible Offline Benchmark for Interactive AI in Assistive Robotics",
+      "url": "https://doi.org/10.1177/10711813261485183",
+      "year": "2026",
+      "authors": "Zhang et al.",
+      "venue": "Proceedings of the Human Factors and Ergonomics Society Annual Meeting",
+      "notes": "An agency budget limits how far autonomous grasp choices may deviate from inferred user intent. The evaluation uses an offline replay benchmark on MeganePro data, not a deployed clinical system.",
+      "tags": [
+        "Human agency",
+        "Shared autonomy",
+        "Grasp selection"
+      ]
+    }
+  ]
 }
