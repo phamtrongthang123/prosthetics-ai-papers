@@ -35,17 +35,25 @@
       ],
       "resources": [
         {
-          "label": "Dataset access",
+          "label": "Dataset 1 (Harvard Dataverse)",
+          "url": "https://doi.org/10.7910/DVN/1Z3IOM"
+        },
+        {
+          "label": "MeganePro overview (NinaPro DB10)",
           "url": "https://ninapro.hevs.ch/instructions/DB10.html"
+        },
+        {
+          "label": "Data processing scripts",
+          "url": "https://doi.org/10.7910/DVN/2AEBC6"
         }
       ],
       "details": {
         "abstract": "Problem: research on intelligent prosthetic grasping needs synchronized information about the user’s muscles, gaze and environment. Proposal: release MeganePro, a multimodal dataset for investigating grasp intent and eye–hand coordination.",
         "architecture": "Dataset paper: no deep-learning model is proposed. The recording setup combines forearm surface EMG and inertial signals with gaze tracking and first-person video.",
         "training": "Data were collected from 30 participants without limb loss and 15 participants with transradial amputations performing 10 grasp types. These are dataset participants, not a reported model-training split.",
-        "loss": "Not applicable: no model training or loss is proposed in this dataset paper.",
-        "metrics": "The paper describes the recordings and their technical validation rather than reporting a trained-model accuracy benchmark. The dataset can support subsequent studies of grasp recognition and multimodal control.",
-        "availability": "Dataset access and documentation are linked below; a model code repository is not applicable."
+        "loss": "Not applicable to a new deep-learning model: this is a dataset paper. The authors do use conventional classifiers for technical validation.",
+        "metrics": "Technical validation includes gaze calibration and grasp classification using linear discriminant analysis, k-nearest neighbors, and kernel regularized least squares; these are validation baselines, not a proposed deep-learning model.",
+        "availability": "MeganePro Dataset 1 and the authors’ data-processing scripts are archived in Harvard Dataverse; the NinaPro DB10 overview also lists related MeganePro datasets."
       }
     },
     {
