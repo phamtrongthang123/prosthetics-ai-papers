@@ -4,6 +4,10 @@ const search = document.querySelector('#search');
 const topic = document.querySelector('#topic');
 const more = document.querySelector('#more');
 const moreWrap = document.querySelector('#more-wrap');
+const featuredTitle = document.querySelector('#intro-title');
+const featuredMeta = document.querySelector('#featured-meta');
+const featuredSummary = document.querySelector('#featured-summary');
+const featuredLink = document.querySelector('#featured-link');
 let papers = [], limit = 12;
 const element = (name, text, className) => { const e = document.createElement(name); if (text) e.textContent = text; if (className) e.className = className; return e; };
 function render() {
@@ -18,6 +22,7 @@ function render() {
   }
   filtered.slice(0, limit).forEach(p => {
     const article = element('article', '', 'paper');
+    if (p === papers[0]) article.id = 'featured-paper';
     const meta = element('div', [p.year, p.venue].filter(Boolean).join(' · '), 'paper-meta');
     const body = element('div'); const title = element('h3'); const link = element('a', p.title);
     link.href = p.url; link.target = '_blank'; link.rel = 'noopener noreferrer'; title.append(link); body.append(title);
@@ -62,6 +67,17 @@ topic.addEventListener('change', () => { limit = 12; render(); });
 more.addEventListener('click', () => { limit += 12; render(); });
 fetch('data/papers.json', { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Archive unavailable'); return response.json(); }).then(data => {
   if (!Array.isArray(data.papers)) throw new Error('Invalid archive');
-  papers = data.papers; const tags = [...new Set(papers.flatMap(p => p.tags || []))].sort((a,b) => a.localeCompare(b));
+  papers = data.papers;
+  if (papers.length) {
+    const featured = papers[0];
+    featuredTitle.textContent = featured.title;
+    featuredMeta.textContent = [featured.authors, featured.venue, featured.year].filter(Boolean).join(' · ');
+    featuredSummary.textContent = featured.notes || featured.details?.abstract || '';
+    featuredLink.href = '#featured-paper';
+    featuredLink.textContent = 'READ THE RESEARCH NOTE ↓';
+  } else {
+    featuredTitle.textContent = 'The research collection is taking shape.';
+  }
+  const tags = [...new Set(papers.flatMap(p => p.tags || []))].sort((a,b) => a.localeCompare(b));
   tags.forEach(tag => { const option = element('option', tag); option.value = tag; topic.append(option); }); render();
-}).catch(() => { count.textContent = 'ARCHIVE UNAVAILABLE'; list.replaceChildren(element('p', 'The archive could not be loaded. Please try again later.', 'empty')); });
+}).catch(() => { featuredTitle.textContent = 'Featured research is temporarily unavailable.'; count.textContent = 'ARCHIVE UNAVAILABLE'; list.replaceChildren(element('p', 'The archive could not be loaded. Please try again later.', 'empty')); });
