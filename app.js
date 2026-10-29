@@ -8,7 +8,7 @@ let papers = [], limit = 12;
 const element = (name, text, className) => { const e = document.createElement(name); if (text) e.textContent = text; if (className) e.className = className; return e; };
 function render() {
   const q = search.value.trim().toLocaleLowerCase();
-  const filtered = papers.filter(p => (!topic.value || (p.tags || []).includes(topic.value)) && (!q || [p.title, p.authors, p.venue, p.notes, ...(p.tags || [])].filter(Boolean).join(' ').toLocaleLowerCase().includes(q)));
+  const filtered = papers.filter(p => (!topic.value || (p.tags || []).includes(topic.value)) && (!q || [p.title, p.authors, p.venue, p.notes, ...Object.values(p.details || {}), ...(p.tags || [])].filter(Boolean).join(' ').toLocaleLowerCase().includes(q)));
   count.textContent = `${filtered.length} ${filtered.length === 1 ? 'PAPER' : 'PAPERS'}${q || topic.value ? ' FOUND' : ' IN THE COLLECTION'}`;
   list.replaceChildren();
   if (!filtered.length) {
@@ -22,10 +22,20 @@ function render() {
     const body = element('div'); const title = element('h3'); const link = element('a', p.title);
     link.href = p.url; link.target = '_blank'; link.rel = 'noopener noreferrer'; title.append(link); body.append(title);
     if (p.authors) body.append(element('p', p.authors));
-    if (p.notes) body.append(element('p', p.notes));
-    if (p.resources?.length) {
+    if (p.details) {
+      const fields = [['abstract', 'Problem & proposal'], ['architecture', 'Architecture'], ['training', 'Data & training'], ['loss', 'Loss & objective'], ['metrics', 'Results & metrics'], ['availability', 'Availability']];
+      const details = element('div', '', 'paper-details');
+      fields.forEach(([key, label]) => {
+        if (!p.details[key]) return;
+        const section = element('section', '', 'detail-section');
+        section.append(element('h4', label), element('p', p.details[key]));
+        details.append(section);
+      });
+      body.append(details);
+    } else if (p.notes) body.append(element('p', p.notes));
+    {
       const resources = element('div', '', 'paper-resources');
-      p.resources.forEach(resource => {
+      [{ label: 'Read paper', url: p.url }, ...(p.resources || [])].forEach(resource => {
         const link = element('a', `${resource.label} ↗`);
         link.href = resource.url; link.target = '_blank'; link.rel = 'noopener noreferrer';
         resources.append(link);

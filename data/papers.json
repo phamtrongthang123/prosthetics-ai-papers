@@ -11,7 +11,15 @@
         "Shared autonomy",
         "Myoelectric control",
         "Bionic hand"
-      ]
+      ],
+      "details": {
+        "abstract": "Problem: multi-finger myoelectric control can be difficult and cognitively demanding. Proposal: continuously blend a user’s EMG-based commands with a sensor-driven controller that brings each finger toward an object while preserving user control of the grasp.",
+        "architecture": "A single-hidden-layer multilayer perceptron (MLP) predicts finger-to-object kinematic distance from fingertip proximity and pressure. A modified Kalman filter estimates the user’s intended five-digit position from surface EMG; a nonlinear rule blends the two control signals.",
+        "training": "MLP training data came from moving individual digits toward and away from 3D-printed objects; contact positions supplied distance targets. For the Kalman decoder, participants attempted each digit’s flexion and extension along with the prosthesis: four trials per direction per digit. Of 528 EMG features, 48 were selected.",
+        "loss": "The main paper does not specify the MLP training loss or optimization hyperparameters; see the referenced supplementary materials for further detail.",
+        "metrics": "In a fragile-object transfer experiment with six participants without limb loss, success was 89 ± 10% with shared control versus 59 ± 23% with human control (p < 0.01). Four participants with transradial amputations also took part in the wider validation; this transfer result should not be read as their result.",
+        "availability": "The paper provides source data and supplementary materials; a public code repository was not identified."
+      }
     },
     {
       "title": "Gaze, visual, myoelectric, and inertial data of grasps for intelligent prosthetics",
@@ -30,7 +38,15 @@
           "label": "Dataset access",
           "url": "https://ninapro.hevs.ch/instructions/DB10.html"
         }
-      ]
+      ],
+      "details": {
+        "abstract": "Problem: research on intelligent prosthetic grasping needs synchronized information about the user’s muscles, gaze and environment. Proposal: release MeganePro, a multimodal dataset for investigating grasp intent and eye–hand coordination.",
+        "architecture": "Dataset paper: no deep-learning model is proposed. The recording setup combines forearm surface EMG and inertial signals with gaze tracking and first-person video.",
+        "training": "Data were collected from 30 participants without limb loss and 15 participants with transradial amputations performing 10 grasp types. These are dataset participants, not a reported model-training split.",
+        "loss": "Not applicable: no model training or loss is proposed in this dataset paper.",
+        "metrics": "The paper describes the recordings and their technical validation rather than reporting a trained-model accuracy benchmark. The dataset can support subsequent studies of grasp recognition and multimodal control.",
+        "availability": "Dataset access and documentation are linked below; a model code repository is not applicable."
+      }
     },
     {
       "title": "Bring Your Own Grasp Generator: Leveraging Robot Grasp Generation for Prosthetic Grasping",
@@ -49,7 +65,15 @@
           "label": "Code and project",
           "url": "https://github.com/hsp-iit/byogg"
         }
-      ]
+      ],
+      "details": {
+        "abstract": "Problem: selecting and executing a grasp with a multi-degree-of-freedom prosthetic hand can be slow and difficult. Proposal: use an eye-in-hand camera and shared autonomy to infer possible grasps and select one from the user’s reaching trajectory.",
+        "architecture": "A DINOv2 backbone with a DPT depth head estimates metric depth from RGB. Contact-GraspNet proposes grasps from a point cloud downsampled to 20,000 points; DPVO tracks the hand’s approach, which selects a candidate mapped to the Hannes hand.",
+        "training": "The depth model is fine-tuned on SynV2, a Unity-generated synthetic dataset with randomized objects, camera orientation and lighting. The study tested 10 participants without limb loss and 3 with amputations, using 5 objects and 30 trials per person. Three object models appeared in depth training and two were unknown or dissimilar.",
+        "loss": "The paper describes depth-model fine-tuning using the Depth Anything recipe, but does not explicitly specify the loss or training set size in the reported methods.",
+        "metrics": "On the real depth test set, the DINOv2/SynV2 model achieved δ1 = 0.698 and RMSE = 0.113. In the three amputee participants, grasp success was 0.84 ± 0.12 and average grasp time 17.02 ± 4.75 s; the co-contraction baseline was 0.87 ± 0.19 and 24.36 ± 15.07 s. The baseline conditions differed across participants.",
+        "availability": "Code and project are linked below. A public download for the paper’s SynV2 training set was not identified."
+      }
     },
     {
       "title": "TinyMyo: a Tiny Foundation Model for Flexible EMG Signal Processing at the Edge",
@@ -67,8 +91,28 @@
         {
           "label": "Code and pretrained models",
           "url": "https://github.com/pulp-bio/BioFoundation"
+        },
+        {
+          "label": "NinaPro DB6",
+          "url": "https://ninapro.hevs.ch/instructions/DB6.html"
+        },
+        {
+          "label": "NinaPro DB7",
+          "url": "https://ninapro.hevs.ch/instructions/DB7.html"
+        },
+        {
+          "label": "EMG2Pose data",
+          "url": "https://github.com/facebookresearch/emg2pose"
         }
-      ]
+      ],
+      "details": {
+        "abstract": "Problem: EMG models often struggle to generalize across users and devices, and large models are hard to deploy on wearables. Proposal: pretrain a compact, reusable EMG foundation model with masked signal reconstruction and adapt it to several downstream tasks.",
+        "architecture": "A 3.6M-parameter Transformer encoder with 8 layers, 192-dimensional embeddings and 3 attention heads processes per-channel signal patches. A lightweight linear decoder is used for pretraining; downstream tasks replace it with task-specific heads.",
+        "training": "Pretraining uses NinaPro DB6 (10 subjects), DB7 (20 participants without limb loss and 2 with transradial amputations), and EMG2Pose (193 participants). Signals are 2 kHz, segmented into 1,000-sample windows with 50% overlap; 50% of patches are masked. AdamW uses batch size 512 and a 50-epoch cosine schedule, with 10 warm-up epochs and peak learning rate 1×10⁻⁴.",
+        "loss": "Pretraining: Smooth L1 reconstruction loss on masked patches plus 0.1 times the loss on visible patches. Gesture classification uses cross-entropy; hand-kinematics regression uses L1.",
+        "metrics": "NinaPro DB5: 89.41 ± 0.16% accuracy and 77.97 ± 0.59% F1, fine-tuned with 200 ms windows. EPN-612: 96.74 ± 0.09% accuracy, fine-tuned with 1,000 ms windows. UCI-EMG: 97.56 ± 0.32% accuracy, trained from scratch with 1,000 ms windows. Reported over five seeds. GAP9 inference: 0.785 s and 44.91 mJ.",
+        "availability": "Code and pretrained models are linked below, together with the public pretraining data sources."
+      }
     },
     {
       "title": "Agency-Constrained Shared Autonomy for Prosthetic Grasp Selection: A Reproducible Offline Benchmark for Interactive AI in Assistive Robotics",
@@ -81,6 +125,20 @@
         "Human agency",
         "Shared autonomy",
         "Grasp selection"
+      ],
+      "details": {
+        "abstract": "Problem: an autonomous prosthetic grasp selector can improve task performance while disagreeing with the user’s inferred intent. Proposal: constrain assistance using an explicit agency budget and evaluate the performance–agency trade-off.",
+        "architecture": "No deep network is proposed. Two per-participant multinomial logistic regressions estimate user and autonomy grasp probabilities from forearm acceleration and gaze/pupil features. SetACSA chooses the autonomy-preferred grasp within an agency-feasible set of 10 grasp classes.",
+        "training": "An offline replay benchmark uses MeganePro DB10 data from five participants without limb loss and four with transradial amputations: 3,814 episodes, including 2,715 static and 1,099 dynamic. Per-participant stratified cross-validation yields out-of-fold predictions. EMG and video are not used by these benchmark decoders.",
+        "loss": "The agency loss index is a disagreement proxy used as a decision constraint, not a neural-network training loss. Fixed-budget experiments use τ = 0.10; an adaptive variant varies τ from 0.05 to 0.20. The paper does not specify the logistic-regression optimization loss explicitly.",
+        "metrics": "Across nine participants, SetACSA achieved accuracy 0.580 ± 0.014, macro-F1 0.577 ± 0.014, and agency loss 0.012 ± 0.001; user-only accuracy was 0.532 ± 0.021. Values are mean ± SEM. These are offline results, not evidence from a deployed prosthesis.",
+        "availability": "The benchmark uses the public MeganePro dataset linked below. A public implementation repository was not identified."
+      },
+      "resources": [
+        {
+          "label": "MeganePro dataset",
+          "url": "https://ninapro.hevs.ch/instructions/DB10.html"
+        }
       ]
     }
   ]

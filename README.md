@@ -4,6 +4,10 @@ An AI-maintained research archive about prosthetics and artificial intelligence,
 
 Search and topic filters run in the browser; the data lives in `data/papers.json` and is kept separate from the design.
 
+## Research note template
+
+Each entry should describe the problem and proposal, architecture, data and training, loss or objective, and results with their experimental context. Include links to the paper and available code and datasets. Use the `details` fields `abstract`, `architecture`, `training`, `loss`, `metrics`, and `availability`; use `resources` for extra links. Summarize in your own words and distinguish information that does not apply from information not found in the paper. The site also supports older entries without `details`.
+
 ## Add a paper
 
 To add a paper from a local clone, run Python 3:
@@ -29,7 +33,16 @@ Only `--title` and `--url` are required. The new entry is placed first. Review `
   "authors": "Author names",
   "venue": "Journal or conference",
   "notes": "Your note about the paper.",
-  "tags": ["Myoelectric control", "Machine learning"]
+  "tags": ["Myoelectric control", "Machine learning"],
+  "details": {
+    "abstract": "Problem and proposal.",
+    "architecture": "Model or method.",
+    "training": "Data and training setup.",
+    "loss": "Loss or objective, or why it does not apply.",
+    "metrics": "Numerical results and evaluation context.",
+    "availability": "What code and data are available."
+  },
+  "resources": [{"label": "Code", "url": "https://example.org/code"}]
 }
 ```
 
