@@ -115,8 +115,12 @@
       ],
       "resources": [
         {
-          "label": "Code and pretrained models",
+          "label": "TinyMyo code (BioFoundation)",
           "url": "https://github.com/pulp-bio/BioFoundation"
+        },
+        {
+          "label": "TinyMyo pretrained models",
+          "url": "https://huggingface.co/PulpBio/TinyMyo"
         },
         {
           "label": "NinaPro DB6",
@@ -127,7 +131,7 @@
           "url": "https://ninapro.hevs.ch/instructions/DB7.html"
         },
         {
-          "label": "EMG2Pose data",
+          "label": "EMG2Pose data and download instructions",
           "url": "https://github.com/facebookresearch/emg2pose"
         }
       ],
@@ -162,7 +166,11 @@
       },
       "resources": [
         {
-          "label": "MeganePro dataset",
+          "label": "MeganePro Dataset 1 (Harvard Dataverse)",
+          "url": "https://doi.org/10.7910/DVN/1Z3IOM"
+        },
+        {
+          "label": "MeganePro overview (NinaPro DB10)",
           "url": "https://ninapro.hevs.ch/instructions/DB10.html"
         }
       ]
