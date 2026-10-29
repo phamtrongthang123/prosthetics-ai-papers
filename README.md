@@ -1,10 +1,12 @@
 # The Prosthetics & AI Review
 
-A personally curated research archive, published with GitHub Pages. The archive starts empty: papers appear only when the owner chooses and adds them. Search and topic filters run in the browser; the data lives in `data/papers.json` and is kept separate from the design.
+An AI-maintained research archive about prosthetics and artificial intelligence, published with GitHub Pages. AI helps maintain the site and its entries. I regularly review the posts and filter out slop, so what appears here reflects what I find interesting.
+
+Search and topic filters run in the browser; the data lives in `data/papers.json` and is kept separate from the design.
 
 ## Add a paper
 
-From a local clone, run Python 3 with the paper you chose:
+To add a paper from a local clone, run Python 3:
 
 ```sh
 python3 scripts/add_paper.py \
