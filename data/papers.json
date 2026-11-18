@@ -1,6 +1,186 @@
 {
   "papers": [
     {
+      "title": "Prosthesis-Aware 3D Human Pose Estimation: A Dataset and Benchmark for RSP Users",
+      "url": "https://arxiv.org/abs/2609.18406",
+      "year": "2026",
+      "authors": "Wen et al.",
+      "venue": "ECCV",
+      "notes": "Introduces RSP3D, a multi-camera motion-capture dataset of six running-specific prosthesis users across 19 daily and athletic actions, alongside a zero-shot hybrid baseline that pairs model-based 3D body estimation with model-free blade point-cloud reconstruction.",
+      "tags": [
+        "Computer vision",
+        "3D pose estimation",
+        "Datasets"
+      ],
+      "resources": [
+        {
+          "label": "Project page",
+          "url": "https://ut-vision.github.io/RSP3D/"
+        },
+        {
+          "label": "Code (ut-vision/RSP3D)",
+          "url": "https://github.com/ut-vision/RSP3D"
+        },
+        {
+          "label": "Dataset access page",
+          "url": "https://ut-vision.github.io/RSP3D/download.html"
+        }
+      ],
+      "details": {
+        "abstract": "Problem: model-based 3D human pose estimators assume intact human anatomy and hallucinate biological limbs instead of curved prosthetic blades, whereas model-free 3D trackers lack body kinematic priors and degrade under occlusion. Proposal: formalize monocular prosthesis-aware 3D pose estimation—jointly recovering intact 3D body joints and running-specific prosthesis (RSP) 3D surface points—release the RSP3D benchmark, and introduce a zero-shot hybrid alignment baseline.",
+        "architecture": "No new neural network is trained; the hybrid baseline aligns pretrained model-based and model-free estimators at inference. SAM 3D Body, a promptable single-image 3D human mesh recovery model built on the Momentum Human Rig, predicts 3D body joints, with hallucinated amputated-side joints removed using a known amputation-site label. SpatialTrackerV2 (STv2-Pointmap), a feed-forward monocular 3D scene reconstruction and point-tracking model, reconstructs 60-frame (1 s) video chunks; 2D body keypoints from AlphaPose (a regional multi-person 2D pose estimator) and blade masks tracked by SAM 2 (a promptable video segmentation model re-initialized from a ground-truth first-frame RSP box every 10 s) index 3D points on the point map. A three-step alignment estimates an XY bounding-box scale ratio between the two skeletons, translates the model-free point cloud to the SAM 3D Body pelvis root, and refines a scalar scale factor to match perspective 2D projections under known camera intrinsics. The benchmark also evaluates MotionBERT (a Transformer lifting 2D keypoints to 3D) and AJAHR (an amputation-aware 3D mesh estimator with a limb-deficiency classifier).",
+        "training": "Zero-shot evaluation only: no models are trained or fine-tuned on RSP3D, which the authors note is too small for reliable training. RSP3D comprises 5.6M video frames from 6 RSP users (4 unilateral: right/left below-knee and left/right above-knee; 2 bilateral below-knee; ages 10s–60s) performing 19 prosthetist-designed daily and exercise actions recorded at 60 FPS across 16 calibrated GoPro RGB cameras synchronized via QR timecodes with a 12-camera OptiTrack marker system (17 Human3.6M body joints plus ruled surfaces fit to paired blade markers spaced ~5 cm apart). One moderately occluded camera view per action segment is evaluated.",
+        "loss": "Not applicable to model training (zero-shot benchmark). During inference-time hybrid alignment, scalar scale refinement minimizes the L2 reprojection residual between perspective-projected aligned 3D body/blade points and the original model-free projections.",
+        "metrics": "Across the 6 RSP3D participants using 2D detections (cross-trial dispersion is not reported in the main summary table), the SAM 3D Body + STv2-Pointmap hybrid baseline achieved 78.35 mm MPJPE and 50.89 mm Procrustes-aligned MPJPE on intact joints (versus 125.06 / 90.85 mm for AJAHR, 115.06 / 64.94 mm for MotionBERT, and 159.64 / 113.87 mm for standalone STv2-Pointmap), alongside pelvis-aligned RSP bidirectional Chamfer Distance (CD) of 288.44 mm (F@100 = 45.61%, F@50 = 19.92%) and centroid-aligned CD-C of 119.60 mm (F-C@50 = 50.45%, F-C@30 = 25.15%). Errors were higher on the 2 bilateral amputees (MPJPE 91.91 mm, CD 342.22 mm) than the 4 unilateral amputees (MPJPE 70.35 mm, CD 256.64 mm). The pipeline relies on manually supplied amputation-site labels, camera intrinsics, and periodic ground-truth first-frame RSP boxes.",
+        "availability": "Evaluation and visualization code are public on GitHub; RSP3D videos and 3D annotations are available through the project download page upon license agreement and access request approval."
+      },
+      "method_references": [
+        {
+          "label": "SAM 3D Body",
+          "url": "https://arxiv.org/abs/2602.15989"
+        },
+        {
+          "label": "SpatialTrackerV2",
+          "url": "https://arxiv.org/abs/2507.12462"
+        },
+        {
+          "label": "AJAHR",
+          "url": "https://arxiv.org/abs/2509.19939"
+        },
+        {
+          "label": "MotionBERT",
+          "url": "https://arxiv.org/abs/2210.06551"
+        },
+        {
+          "label": "SAM 2",
+          "url": "https://arxiv.org/abs/2408.00714"
+        },
+        {
+          "label": "AlphaPose",
+          "url": "https://arxiv.org/abs/2211.03375"
+        }
+      ]
+    },
+    {
+      "title": "AJAHR: Amputated Joint Aware 3D Human Mesh Recovery",
+      "url": "https://arxiv.org/abs/2509.19939",
+      "year": "2025",
+      "authors": "Cho et al.",
+      "venue": "ICCV",
+      "notes": "Adapts single-image 3D human mesh recovery to people with limb loss using a limb-amputation classifier, dual pose tokenizers, and the 1M-image synthetic Amputee 3D (A3D) dataset. Models anatomical limb absence along SMPL joints rather than prosthetic hardware geometry.",
+      "tags": [
+        "Computer vision",
+        "3D pose estimation",
+        "Datasets"
+      ],
+      "resources": [
+        {
+          "label": "Project page",
+          "url": "https://chojinie.github.io/project_AJAHR/"
+        },
+        {
+          "label": "Code and checkpoints (AJAHR_official)",
+          "url": "https://github.com/chojinie/AJAHR_official"
+        },
+        {
+          "label": "A3D dataset request form",
+          "url": "https://forms.gle/z5QGfXP9PxzSZM9F8"
+        }
+      ],
+      "details": {
+        "abstract": "Problem: monocular 3D human mesh recovery (HMR) models assume intact anatomy and hallucinate folded or implausible limbs when reconstructing people with amputations, while missing limbs can be confused with ordinary occlusions. Proposal: jointly train a limb-amputation classifier with a tokenized SMPL mesh recovery network, introduce a 1M-image synthetic amputee training dataset (Amputee 3D, A3D), and switch pose codebooks based on predicted limb absence.",
+        "architecture": "Built on SMPL (a 6,890-vertex, 24-joint parametric body mesh), TokenHMR (pose estimation framed as discrete codebook token weighting), and HMR 2.0 (a Transformer-based monocular mesh regressor). Input images are embedded by a ViTPose backbone and decoded by a Transformer decoder with two cross-attention paths: a zero-pose initialization token and a 1,280-D feature alignment token from BPAC-Net. BPAC-Net concatenates the RGB image with 2D keypoint heatmaps (ground truth during training; ViTPose detections at inference) and passes them through a 16-block ResNet-32 with CBAM spatial/channel attention (512-D features) into four 4-way classification heads (left/right arm and leg: intact or one of three amputation levels). Separate decoder heads regress global orientation, 10-D shape, camera translation, and—via six two-layer GELU MLP blocks over 1,024-D features—soft weights over 320 tokens in one of two frozen 256×2,048 VQ-VAE pose codebooks (4-layer 1D Conv + ResNet encoder/decoder over 6D joint rotations): an amputee+non-amputee codebook when BPAC-Net flags any amputation, or a non-amputee-only codebook otherwise. Post-processing zeros SMPL pose matrices of predicted amputated parent and child joints so descendant vertices collapse cleanly to the residual joint; prosthetic devices themselves are not modeled.",
+        "training": "Two-stage training. First, the two AJAHR-Tokenizers are pretrained for 200,000 iterations (batch size 256, learning rate 2×10⁻⁴, weight decay 1×10⁻⁵, 50/50 amputee/non-amputee sampling for the mixed codebook) on AMASS, MOYO, and A3D poses, then frozen. Second, AJAHR is partially fine-tuned (updating patch/pose embeddings, the last 4 ViTPose blocks, the last 2 Transformer decoder blocks, heads, and BPAC-Net) for 150,000 iterations on 2× A100 GPUs with AdamW (batch size 64, learning rate 5×10⁻⁶, weight decay 1×10⁻⁴, 50/50 amputee/non-amputee sampling) across BEDLAM, Human3.6M, MPI-INF-3DHP, COCO, MPII, InstaVariety, AVA, AI Challenger, and A3D (~1.0M synthetic images across 12 SMPL amputation regions and 7 BEDLAM demographic groups composited onto LaMa-inpainted backgrounds). Non-visible or amputated 2D keypoints are masked to (0, 0), while 3D joints and SMPL parameters retain supervision.",
+        "loss": "Tokenizer pretraining minimizes L_total = 100.0 L_mix + 1.0 ||sg[Z] − Z_tilde||_2^2 + 1.0 ||Z − sg[Z_tilde]||_2^2, where L_mix is the L2 reconstruction error over mesh vertices, 3D joints, and 6D pose parameters, with EMA updates and codebook resets. Joint AJAHR training minimizes L_overall = 10⁻³ L_theta + 5×10⁻⁴ L_beta + 10⁻² L_2D + 5×10⁻² L_3D + 10⁻² L_cls, combining L2 losses on 6D pose, shape, 2D projected joints, and 3D joints with the sum of four limb cross-entropy losses (L_cls).",
+        "metrics": "Evaluated on synthetic A3D, partially synthesized/manually annotated real web images (ITW-amputee; 640 qualitative test images noted), non-amputee 3DPW and EMDB, and occluded 3DOH50K (cross-seed dispersion not reported). Using ground-truth amputation masks for fair comparison against A3D-finetuned baselines, AJAHR achieved 73.42 mm MVE, 73.19 mm MPJPE, and 49.42 mm PA-MPJPE on A3D, and 116.42 mm MVE, 129.25 mm MPJPE, and 77.18 mm PA-MPJPE on ITW-amputee (versus 136.52 / 146.12 / 91.00 mm for TokenHMR and 110.33 / 154.43 / 121.83 mm for HMR 2.0), while matching or improving non-amputee accuracy on EMDB (91.74 mm MPJPE, 58.62 mm PA-MPJPE) and 3DPW (71.77 mm MPJPE, 44.94 mm PA-MPJPE). With end-to-end BPAC-Net predictions replacing ground-truth masks, ITW-amputee errors were 139.64 mm PVE, 143.74 mm MPJPE, and 84.91 mm PA-MPJPE. BPAC-Net reached 0.881 accuracy / 0.820 F1 on A3D and 0.956 accuracy / 0.977 F1 distinguishing occlusion from amputation on 3DOH50K.",
+        "availability": "Official inference/training code, ViTPose integration, and model checkpoints (via Google Drive) are publicly available on GitHub under a non-commercial research license; the A3D dataset is available upon academic request form approval."
+      },
+      "method_references": [
+        {
+          "label": "TokenHMR",
+          "url": "https://arxiv.org/abs/2404.16752"
+        },
+        {
+          "label": "HMR 2.0",
+          "url": "https://arxiv.org/abs/2305.20091"
+        },
+        {
+          "label": "ViTPose",
+          "url": "https://arxiv.org/abs/2204.12484"
+        },
+        {
+          "label": "CBAM",
+          "url": "https://arxiv.org/abs/1807.06521"
+        },
+        {
+          "label": "VQ-VAE",
+          "url": "https://arxiv.org/abs/1711.00937"
+        },
+        {
+          "label": "SMPL",
+          "url": "https://smpl.is.tue.mpg.de/"
+        }
+      ]
+    },
+    {
+      "title": "Continuous Wrist Control on the Hannes Prosthesis: a Vision-based Shared Autonomy Framework",
+      "url": "https://arxiv.org/abs/2502.17265",
+      "year": "2025",
+      "authors": "Vasile et al.",
+      "venue": "ICRA",
+      "notes": "An eye-in-hand vision and shared-autonomy pipeline continuously servos a prosthetic wrist during reaching and orients it from graspable object-part masks on an EMG trigger. Evaluated in Unity simulation, on 14,692 real iHannes frames, and in a qualitative hardware demonstration—not yet tested with amputee participants.",
+      "tags": [
+        "Shared autonomy",
+        "Computer vision",
+        "Myoelectric control",
+        "Bionic hand"
+      ],
+      "resources": [
+        {
+          "label": "Project page",
+          "url": "https://hsp-iit.github.io/hannes-wrist-control"
+        },
+        {
+          "label": "Wrist control & simulation code",
+          "url": "https://github.com/hsp-iit/hannes-wrist-control"
+        },
+        {
+          "label": "DINOv2Det code (dinoDet)",
+          "url": "https://github.com/hsp-iit/dinoDet"
+        },
+        {
+          "label": "Synthetic dataset generator",
+          "url": "https://github.com/hsp-iit/hemisphere-dataset-generation"
+        },
+        {
+          "label": "iHannes dataset (Zenodo)",
+          "url": "https://zenodo.org/records/17199591"
+        }
+      ],
+      "details": {
+        "abstract": "Problem: sequential EMG mode-switching makes simultaneous prosthetic wrist control cumbersome, forcing users into compensatory elbow, shoulder, and hip movements during reach-to-grasp. Proposal: delegate continuous wrist tracking during reaching and pre-grasp wrist orientation to a palm-camera shared-autonomy controller while leaving rotation triggering and final finger closure under two-channel forearm EMG control.",
+        "architecture": "A three-phase pipeline pairs instance segmentation with partitioned visual servoing on a 3-DoF right-arm Hannes prosthesis (orthogonal wrist flexion-extension [WFE] and pronation-supination [WPS] joints, single-motor finger opening-closing, and a palm RGB camera tilted 16° downward). DINOv2Det replaces the ViT backbone of ViTDet—a Mask R-CNN detector that builds multi-scale features solely from the final Vision Transformer feature map before a Region Proposal Network and RoI heads—with the smallest pretrained DINOv2 ViT, interpolating patch-embedding filters from 14×14×3 to 16×16×3 for 640×480 inputs to segment object parts into top-grasp, side-grasp, or no-grasp instances. During transport, neighboring part masks are merged and proportional-and-partitioned Image-Based Visual Servoing (pp-IBVS) drives WFE via Jacobian pseudo-inverse IBVS while controlling WPS with a signed proportional law on horizontal centroid offset so the palm rotates inward naturally. Upon an EMG trigger, servoing halts and the part mask closest to the image center sets the wrist grasp orientation; forearm EMG then drives finger closure (15 Hz on an RTX 3080 laptop; an arm IMU starts and stops the pipeline).",
+        "training": "DINOv2Det is trained in Detectron2 on 36,000 Unity HDRP synthetic images (15 YCB objects with 3D meshes partitioned into graspable parts; 2,400 views per object across 6 hemisphere radius bins from 0.2–1.0 m with randomized indoor backgrounds, lighting, and 0–90° optical-axis roll), first training the RPN and RoI heads from scratch with DINOv2 frozen and then fine-tuning end-to-end for 22,500 iterations. Model selection every 1,125 iterations uses a 1,500-image synthetic outdoor validation set (100 views per object). Zero-shot real evaluation uses 14,692 frames from 311 real eye-in-hand RGB-D approach videos in the iHannes Same-Person subset, semi-automatically labeled via initial 6D pose estimation and colored point-cloud registration.",
+        "loss": "For visual servoing, WFE minimizes image-plane centroid feature error while WPS follows a proportional horizontal-offset control law. For DINOv2Det, training follows Detectron2's ViTDet / Mask R-CNN setup over 22,500 iterations, though the paper does not explicitly report the multi-task detection/mask loss weights, optimizer learning rate, or batch size.",
+        "metrics": "In Unity visual-servoing tests across 20 hemisphere start poses around a mustard bottle, pp-IBVS achieved 20/20 natural inward wrist configurations in 361.7 ± 70.5 iterations, versus 13/20 in 213.5 ± 124.9 iterations for standard 2-DoF IBVS. On zero-shot real iHannes evaluation, DINOv2Det reached 55.7 box AP (91.4 AP50) and 36.9 mask AP (73.8 AP50, 32.9 AP75) at 54.6 ms/frame, outperforming ResNet-50-FPN Mask R-CNN (37.7 box AP, 23.1 mask AP, 41.0 ms) and ViT-Base ViTDet (43.7 box AP, 29.1 mask AP, 128.2 ms). Under random-texture training to test unseen real textures, DINOv2Det retained 34.9 mask AP versus 20.0 (ViTDet) and 11.7 (Mask R-CNN). Hardware deployment on the Hannes arm is demonstrated qualitatively without quantitative amputee user trials.",
+        "availability": "Official repositories for the Unity/Python wrist-control simulation, DINOv2Det (dinoDet), the synthetic hemisphere dataset generator, and the annotated iHannes dataset on Zenodo are publicly available."
+      },
+      "method_references": [
+        {
+          "label": "DINOv2",
+          "url": "https://arxiv.org/abs/2304.07193"
+        },
+        {
+          "label": "ViTDet",
+          "url": "https://arxiv.org/abs/2203.16527"
+        },
+        {
+          "label": "Mask R-CNN",
+          "url": "https://arxiv.org/abs/1703.06870"
+        }
+      ]
+    },
+    {
       "title": "Shared human-machine control of an intelligent bionic hand improves grasping and decreases cognitive burden for transradial amputees",
       "url": "https://www.nature.com/articles/s41467-025-65965-9",
       "year": "2025",
